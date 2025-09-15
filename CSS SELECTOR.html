@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CSS Selectors Showcase</title>
+  <style>
+    /* Universal selector */
+    * {
+      font-family: Arial, sans-serif;
+    }
+
+    /* Element selector */
+    h2 {
+      color: darkblue;
+      text-align: center;
+      border-bottom: 2px solid lightgray;
+      padding-bottom: 5px;
+    }
+
+    p {
+      padding: 8px;
+      margin: 6px;
+    }
+
+    /* Class selector */
+    .highlight {
+      background-color: yellow;
+      font-style: italic;
+    }
+
+    /* ID selector */
+    #unique {
+      color: darkgreen;
+      background-color: #f0f0f0;
+      border-left: 4px solid green;
+    }
+
+    /* Attribute selector */
+    input[type="text"] {
+      border: 2px solid orange;
+      padding: 5px;
+    }
+
+    /* Group selector */
+    h3, a {
+      color: blue;
+    }
+
+    /* Descendant selector */
+    div p {
+      background-color: #fef4f4;
+    }
+
+    /* Child selector */
+    div > p {
+      border: 1px dashed red;
+    }
+
+    /* Pseudo-class selector */
+    a:hover {
+      color: green;
+      text-decoration: underline;
+    }
+
+  </style>
+</head>
+<body>
+
+  <h2>CSS Selectors Showcase</h2>
+
+  <!-- Element selector -->
+  <p>This paragraph uses a simple element selector.</p>
+
+  <!-- Class selector -->
+  <p class="highlight">This paragraph has a <strong>highlight</strong> class.</p>
+
+  <!-- ID selector -->
+  <p id="unique">This paragraph has a unique <strong>ID</strong>.</p>
+
+  <!-- Descendant and child selector -->
+  <div>
+    <p>This paragraph is <strong>inside a div</strong>.</p>
+    <p class="highlight">This is another paragraph inside the same div.</p>
+  </div>
+
+  <!-- Attribute selector -->
+  <label for="name">Name:</label>
+  <input type="text" id="name" name="name" placeholder="Enter your name">
+
+  <!-- Group selector + pseudo-class -->
+  <h3>Visit Our Website</h3>
+  <a href="https://example.com" target="_blank">Click here</a>
+
+</body>
+</html>

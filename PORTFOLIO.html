@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sustainability & Green Initiatives — Digital Portfolio</title>
+  <meta name="description" content="A clean, modern single-page digital portfolio focused on sustainability and green initiatives. Includes project showcase, impact metrics, carbon calculator, pledge tracker, and printable view." />
+  <style>
+    :root{
+      --bg: #0b0f0e;
+      --card: #111716;
+      --text: #e6f3ee;
+      --muted: #a7c0b7;
+      --accent: #37c079; /* emerald */
+      --accent-2:#9ce6b8; /* mint */
+      --ring: rgba(55,192,121,.35);
+      --warn:#ffb84d;
+      --danger:#ff6b6b;
+      --ok:#4dd4ac;
+      --shadow: 0 10px 25px rgba(0,0,0,.25);
+    }
+    [data-theme="light"]{
+      --bg: #f5fbf8;
+      --card: #ffffff;
+      --text: #0f2a22;
+      --muted: #46665a;
+      --accent: #148a55;
+      --accent-2:#57d6a0;
+      --ring: rgba(20,138,85,.25);
+      --shadow: 0 10px 25px rgba(20, 80, 55, .15);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial;
+      color:var(--text); background:radial-gradient(1200px 800px at 10% -10%, rgba(55,192,121,.12), transparent 60%),
+                       radial-gradient(1200px 800px at 110% 10%, rgba(87,214,160,.14), transparent 60%),
+                       var(--bg);
+    }
+    a{color:var(--accent); text-decoration:none}
+    a:hover{text-decoration:underline}
+    .container{max-width:1100px; margin-inline:auto; padding:28px}
+    header{
+      position:sticky; top:0; z-index:50; backdrop-filter:saturate(180%) blur(8px);
+      background:color-mix(in oklab, var(--bg) 85%, transparent);
+      border-bottom:1px solid color-mix(in oklab, var(--muted) 25%, transparent);
+    }
+    nav{display:flex;gap:16px; align-items:center; justify-content:space-between; padding:10px 24px}
+    .brand{display:flex; gap:12px; align-items:center}
+    .logo{width:36px; height:36px; border-radius:10px; display:grid; place-items:center; background:linear-gradient(135deg, var(--accent), var(--accent-2)); color:white; font-weight:800; box-shadow:var(--shadow)}
+    .brand h1{font-size:18px; margin:0}
+    .navlinks{display:flex; gap:14px; flex-wrap:wrap}
+    .navlinks a{padding:8px 10px; border-radius:10px}
+    .navlinks a:hover{background:color-mix(in oklab, var(--accent) 14%, transparent); text-decoration:none}
+    .btn{border:0; background:var(--accent); color:white; padding:10px 14px; border-radius:12px; cursor:pointer; font-weight:700; box-shadow:var(--shadow)}
+    .btn.secondary{background:transparent; color:var(--accent); border:2px solid var(--accent)}
+    .btn.ghost{background:transparent; color:var(--text); border:1px solid color-mix(in oklab, var(--muted) 30%, transparent)}
+    .btn:focus{outline:3px solid var(--ring)}
+
+    /* Hero */
+    .hero{display:grid; gap:22px; grid-template-columns:1.4fr .8fr; align-items:center; margin-top:18px}
+    .hero h2{font-size:clamp(28px, 4vw, 44px); margin:6px 0}
+    .kpis{display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:8px}
+    .kpi{background:var(--card); padding:16px; border-radius:18px; box-shadow:var(--shadow)}
+    .kpi .num{font-size:26px; font-weight:900}
+    .chip{display:inline-flex; gap:8px; align-items:center; background:color-mix(in oklab, var(--accent) 18%, transparent); color:var(--text); padding:6px 10px; border-radius:999px; font-weight:700}
+
+    .card{background:var(--card); border:1px solid color-mix(in oklab, var(--muted) 18%, transparent); border-radius:18px; padding:18px; box-shadow:var(--shadow)}
+    .grid{display:grid; gap:18px}
+    .grid.cols-3{grid-template-columns:repeat(3,1fr)}
+    .grid.cols-2{grid-template-columns:repeat(2,1fr)}
+    @media (max-width:920px){ .hero{grid-template-columns:1fr} .kpis{grid-template-columns:repeat(2,1fr)} .grid.cols-3{grid-template-columns:1fr} .grid.cols-2{grid-template-columns:1fr} }
+
+    .section{margin:30px 0}
+    .section h3{margin:0 0 10px 0; font-size:22px}
+    .muted{color:var(--muted)}
+
+    /* Projects */
+    .tags{display:flex;flex-wrap:wrap; gap:8px}
+    .tag{padding:6px 10px; border-radius:999px; font-size:12px; background:color-mix(in oklab, var(--accent) 12%, transparent); border:1px dashed color-mix(in oklab, var(--accent) 30%, transparent)}
+    .project{display:grid; gap:12px}
+    .project .thumb{border-radius:14px; height:150px; background:
+      linear-gradient(120deg, color-mix(in oklab, var(--accent) 14%, transparent), transparent 50%),
+      repeating-linear-gradient(135deg, color-mix(in oklab, var(--muted) 18%, transparent) 0 2px, transparent 2px 6px);
+    }
+    .actions{display:flex; gap:10px; flex-wrap:wrap}
+
+    /* Timeline */
+    .timeline{position:relative; padding-left:24px}
+    .timeline::before{content:""; position:absolute; left:8px; top:0; bottom:0; width:2px; background:color-mix(in oklab, var(--muted) 30%, transparent)}
+    .tl-item{position:relative; margin:10px 0; padding-left:10px}
+    .tl-item::marker{content:""}
+    .dot{position:absolute; left:-2px; top:6px; width:12px; height:12px; background:var(--accent); border-radius:50%; box-shadow:0 0 0 3px color-mix(in oklab, var(--accent) 40%, transparent)}
+
+    /* Calculator */
+    .calc-grid{display:grid; grid-template-columns:1fr 1fr; gap:14px}
+    .field{display:grid; gap:6px}
+    label{font-weight:700}
+    input,select,textarea{padding:10px 12px; border-radius:12px; border:1px solid color-mix(in oklab, var(--muted) 25%, transparent); background:transparent; color:var(--text)}
+    input:focus,select:focus,textarea:focus{outline:3px solid var(--ring); border-color:transparent}
+
+    /* Progress bars */
+    .bar{height:10px; background:color-mix(in oklab, var(--muted) 15%, transparent); border-radius:999px; overflow:hidden}
+    .bar > i{display:block; height:100%; border-radius:999px; background:linear-gradient(90deg, var(--accent), var(--accent-2))}
+
+    /* Footer */
+    footer{margin-top:40px; padding:40px 0; text-align:center; color:var(--muted)}
+
+    /* Modal */
+    dialog{border:none; border-radius:16px; padding:0; width:min(720px, 94vw); box-shadow:var(--shadow); background:var(--card); color:var(--text)}
+    dialog::backdrop{background:rgba(0,0,0,.4)}
+    .modal-head{display:flex; align-items:center; justify-content:space-between; padding:16px 18px; border-bottom:1px solid color-mix(in oklab, var(--muted) 22%, transparent)}
+
+    /* Print */
+    @media print {
+      header, .actions .btn.ghost, #themeToggle, .share, #printBtn{display:none !important}
+      body{background:white}
+      .card{box-shadow:none; border:1px solid #ddd}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav class="container" aria-label="Primary">
+      <div class="brand">
+        <div class="logo" aria-hidden="true">🌿</div>
+        <h1>Sustainability & Green Initiatives</h1>
+      </div>
+      <div class="navlinks" role="navigation">
+        <a href="#about">About</a>
+        <a href="#impact">Impact</a>
+        <a href="#projects">Projects</a>
+        <a href="#calculator">Calculator</a>
+        <a href="#resources">Resources</a>
+        <button id="themeToggle" class="btn secondary" aria-pressed="false" title="Toggle dark/light">Toggle Theme</button>
+      </div>
+    </nav>
+  </header>
+
+  <main class="container">
+    <!-- HERO -->
+    <section class="hero section" id="about">
+      <div>
+        <span class="chip" aria-label="Portfolio Focus"><span>♻️</span> Sustainable Actions, Real Impact</span>
+        <h2>Hi, I’m <span contenteditable="true" aria-label="thillai a">thillai a</span> — I design & lead initiatives for a greener future.</h2>
+        <p class="muted">This portfolio showcases my environmental goals, projects, and measurable outcomes across waste reduction, energy efficiency, and community stewardship.</p>
+        <div class="kpis" id="kpis">
+          <div class="kpi" aria-live="polite"><div class="muted">Waste Diverted</div><div class="num" data-target="1250">0</div><div class="muted">kg from landfills</div></div>
+          <div class="kpi" aria-live="polite"><div class="muted">Energy Saved</div><div class="num" data-target="18">0</div><div class="muted">MWh/year</div></div>
+          <div class="kpi" aria-live="polite"><div class="muted">Trees Planted</div><div class="num" data-target="220">0</div><div class="muted">since 2023</div></div>
+        </div>
+        <div class="actions" style="margin-top:10px">
+          <button class="btn" id="printBtn" title="Print or Save as PDF">Print Portfolio</button>
+          <button class="btn ghost share" id="shareBtn" title="Share this page">Share</button>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Mission & Focus Areas</h3>
+        <p>My mission is to build low-carbon systems and resilient communities by aligning projects with <strong>UN SDGs</strong> 7 (Clean Energy), 11 (Sustainable Cities), 12 (Responsible Consumption), and 13 (Climate Action).</p>
+        <div class="grid cols-2">
+          <div>
+            <div class="muted">SDG 7 — Clean Energy</div>
+            <div class="bar" aria-label="Progress on SDG 7"><i style="width:72%"></i></div>
+          </div>
+          <div>
+            <div class="muted">SDG 11 — Sustainable Cities</div>
+            <div class="bar"><i style="width:65%"></i></div>
+          </div>
+          <div>
+            <div class="muted">SDG 12 — Responsible Consumption</div>
+            <div class="bar"><i style="width:80%"></i></div>
+          </div>
+          <div>
+            <div class="muted">SDG 13 — Climate Action</div>
+            <div class="bar"><i style="width:58%"></i></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- IMPACT DASHBOARD -->
+    <section class="section" id="impact">
+      <div class="grid cols-3">
+        <article class="card">
+          <h3>Impact Highlights</h3>
+          <ul>
+            <li>Introduced <b>zero-waste events</b> with reusable kits across campus.</li>
+            <li>Optimized HVAC schedules to cut <b>18 MWh</b> annually.</li>
+            <li>Led tree plantation drives with <b>220+ saplings</b> and survival monitoring.</li>
+          </ul>
+          <div class="tags" aria-label="Focus tags">
+            <span class="tag">Energy</span>
+            <span class="tag">Waste</span>
+            <span class="tag">Water</span>
+            <span class="tag">Biodiversity</span>
+            <span class="tag">Community</span>
+          </div>
+        </article>
+
+        <article class="card">
+          <h3>Monthly Emissions Trend</h3>
+          <canvas id="trend" width="420" height="210" role="img" aria-label="Line chart showing monthly CO₂e trend"></canvas>
+          <p class="muted" style="font-size:12px">Synthetic data; replace with your actual readings.</p>
+        </article>
+
+        <article class="card">
+          <h3>Pledge Tracker</h3>
+          <p class="muted">Join my micro-actions challenge. Your pledges are saved to your device only.</p>
+          <div class="grid">
+            <label><input type="checkbox" class="pledge" value="carry_bottle"> Carry a reusable bottle</label>
+            <label><input type="checkbox" class="pledge" value="plant_tree"> Plant one tree this month</label>
+            <label><input type="checkbox" class="pledge" value="bike_commute"> Bike or walk once a week</label>
+            <label><input type="checkbox" class="pledge" value="no_single_use"> Avoid single-use plastics</label>
+          </div>
+          <div style="margin-top:10px"><span class="chip" id="pledgeCount">0 pledges</span></div>
+        </article>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section class="section" id="projects">
+      <div class="actions" style="justify-content:space-between; align-items:center">
+        <h3 style="margin:0">Flagship Projects</h3>
+        <div>
+          <input id="projectSearch" type="search" placeholder="Search projects..." aria-label="Search projects"/>
+          <select id="filter" aria-label="Filter by theme">
+            <option value="all">All</option>
+            <option>Energy</option>
+            <option>Waste</option>
+            <option>Water</option>
+            <option>Biodiversity</option>
+            <option>Community</option>
+          </select>
+        </div>
+      </div>
+      <div class="grid cols-3" id="projectGrid"></div>
+    </section>
+
+    <!-- CALCULATOR -->
+    <section class="section" id="calculator">
+      <div class="card">
+        <h3>Quick Carbon Footprint (Monthly)</h3>
+        <p class="muted">A simple estimate for personal emissions. Replace defaults with your numbers.</p>
+        <div class="calc-grid">
+          <div class="field">
+            <label for="electricity">Electricity Usage (kWh)</label>
+            <input id="electricity" type="number" min="0" value="120" />
+          </div>
+          <div class="field">
+            <label for="lpg">Cooking Gas LPG (kg)</label>
+            <input id="lpg" type="number" min="0" value="6" />
+          </div>
+          <div class="field">
+            <label for="vehicleKm">Transport — Vehicle km</label>
+            <input id="vehicleKm" type="number" min="0" value="180" />
+          </div>
+          <div class="field">
+            <label for="wasteKg">Waste to Landfill (kg)</label>
+            <input id="wasteKg" type="number" min="0" value="12" />
+          </div>
+        </div>
+        <div class="actions" style="margin-top:12px">
+          <button class="btn" id="calcBtn">Calculate</button>
+          <button class="btn ghost" id="resetCalc">Reset</button>
+          <span class="chip" id="calcResult" aria-live="polite">CO₂e: –</span>
+        </div>
+        <p class="muted" style="font-size:12px">Factors (approx.): Grid 0.82 kg/kWh, LPG 3.0 kg/kg, Car 0.192 kg/km, Waste 2.0 kg/kg. Adjust in code for your region.</p>
+      </div>
+    </section>
+
+    <!-- RESOURCES & CONTACT -->
+    <section class="section" id="resources">
+      <div class="grid cols-2">
+        <div class="card">
+          <h3>Resources & Publications</h3>
+          <ul id="resourcesList">
+            <li><a href="#">Campus energy audit report (2024)</a></li>
+            <li><a href="#">Guide: Zero-waste event planning</a></li>
+            <li><a href="#">Biodiversity baseline survey</a></li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Contact</h3>
+          <div class="grid">
+            <div class="field">
+              <label for="name">Name</label>
+              <input id="name" placeholder="THILLAI A" />
+            </div>
+            <div class="field">
+              <label for="email">Email</label>
+              <input id="email" type="email" placeholder="thillaivasan1506@gmail.com" />
+            </div>
+            <div class="field" style="grid-column:1/-1">
+              <label for="message">Message</label>
+              <textarea id="message" rows="4" placeholder="I hope you’re doing well! I just wanted to reach out and connect with you. Looking forward to staying in touch...."></textarea>
+            </div>
+          </div>
+          <div class="actions" style="margin-top:10px">
+            <button class="btn" id="sendBtn">Send</button>
+            <span class="chip" id="sendStatus" aria-live="polite">Draft</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TIMELINE -->
+    <section class="section">
+      <div class="card">
+        <h3>Milestone Timeline</h3>
+        <ol class="timeline" id="timeline">
+          <li class="tl-item"><span class="dot" aria-hidden="true"></span><b>2023</b> — Launched waste segregation pilot in hostels, 56% diversion.</li>
+          <li class="tl-item"><span class="dot" aria-hidden="true"></span><b>2024</b> — Solar rooftop assessment completed; 25 kW commissioned.</li>
+          <li class="tl-item"><span class="dot" aria-hidden="true"></span><b>2025</b> — Community composting hub and tree GIS monitoring.</li>
+        </ol>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>© <span id="year"></span> <span contenteditable="true">thillai.A</span> • Built with HTML, CSS & JavaScript • <button class="btn ghost" id="exportJSON">Export Data</button></p>
+    </div>
+  </footer>
+
+  <dialog id="projectModal" aria-labelledby="modalTitle">
+    <div class="modal-head">
+      <h3 id="modalTitle">Project</h3>
+      <button class="btn ghost" onclick="document.getElementById('projectModal').close()">Close</button>
+    </div>
+    <div style="padding:16px" id="modalBody">Summary...</div>
+  </dialog>
+
+  <script>
+  // Theme toggle
+  (function(){
+    const btn = document.getElementById('themeToggle');
+    const saved = localStorage.getItem('theme');
+    if(saved){ document.documentElement.setAttribute('data-theme', saved); btn.setAttribute('aria-pressed', saved==='dark'); }
+    btn.addEventListener('click', ()=>{
+      const cur = document.documentElement.getAttribute('data-theme');
+      const next = cur==='dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+      btn.setAttribute('aria-pressed', next==='dark');
+    });
+  })();
+
+  // Counters
+  function animateCounters(){
+    document.querySelectorAll('.num').forEach(el=>{
+      const target = +el.dataset.target || 0;
+      const duration = 1200;
+      const start = performance.now();
+      function tick(now){
+        const p = Math.min(1, (now-start)/duration);
+        const val = Math.floor(target * (0.2 + 0.8*p*p));
+        el.textContent = new Intl.NumberFormat().format(val);
+        if(p<1) requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+    });
+  }
+  animateCounters();
+
+  // Simple line chart (no libs)
+  (function(){
+    const c = document.getElementById('trend'); const ctx = c.getContext('2d');
+    const data = [1.8,1.7,1.65,1.6,1.55,1.5,1.52,1.48,1.45,1.42,1.4,1.38]; // tCO2e
+    const pad = 28; const w=c.width, h=c.height;
+    ctx.clearRect(0,0,w,h);
+    // axes
+    ctx.strokeStyle = 'rgba(120,140,130,.6)'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(pad, pad); ctx.lineTo(pad, h-pad); ctx.lineTo(w-pad, h-pad); ctx.stroke();
+    // grid + labels
+    const max = Math.max(...data), min = Math.min(...data);
+    const steps=4;
+    ctx.font='12px system-ui'; ctx.fillStyle='rgba(120,140,130,.9)';
+    for(let i=0;i<=steps;i++){
+      const y = pad + (h-2*pad) * (i/steps);
+      ctx.beginPath(); ctx.moveTo(pad, y); ctx.lineTo(w-pad, y); ctx.strokeStyle='rgba(120,140,130,.2)'; ctx.stroke();
+      const val = (max - (max-min)*(i/steps)).toFixed(2);
+      ctx.fillText(val, 4, y+4);
+    }
+    // line
+    ctx.beginPath();
+    data.forEach((v,i)=>{
+      const x = pad + (w-2*pad) * (i/(data.length-1));
+      const y = pad + (h-2*pad) * ((max - v)/(max-min));
+      if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+    });
+    ctx.lineWidth=2; ctx.strokeStyle='#26a76a'; ctx.stroke();
+    // points
+    data.forEach((v,i)=>{
+      const x = pad + (w-2*pad) * (i/(data.length-1));
+      const y = pad + (h-2*pad) * ((max - v)/(max-min));
+      ctx.beginPath(); ctx.arc(x,y,3,0,Math.PI*2); ctx.fillStyle='#37c079'; ctx.fill();
+    })
+  })();
+
+  // Projects data
+  const projects = [
+    {title:'Solar Rooftop — 25 kW', theme:'Energy', impact:'Saves ~34,000 kWh/year; payback 4.5 yrs', details:'Designed, vendor evaluation, safety & net-metering approvals.', tasks:['Design','Procurement','Commissioning']},
+    {title:'Zero-Waste Fest', theme:'Waste', impact:'90% diversion rate with reusable plates & composting', details:'Volunteer ops, vendor MOU, signage, bin stations & audits.', tasks:['Vendor MOU','Training','Audit']},
+    {title:'Water Harvesting Pits', theme:'Water', impact:'Recharge ~1.8M liters/yr', details:'Catchment mapping and percolation pits at strategic points.', tasks:['Survey','Design','Execution']},
+    {title:'Native Tree Drive', theme:'Biodiversity', impact:'220+ saplings; 82% survival with drip lines', details:'GIS mapping & student caretaker program for each sapling.', tasks:['Species Select','Planting','Monitoring']},
+    {title:'Green Commute Week', theme:'Community', impact:'~1.2 tCO₂e avoided; >300 participants', details:'Gamified leaderboard and safety marshals for routes.', tasks:['Campaign','Data','Rewards']},
+    {title:'LED Retrofit', theme:'Energy', impact:'Cuts 18 MWh/yr; better lux levels', details:'Audit, L70 spec, procurement & disposal of old tubes.', tasks:['Audit','Spec','Install']}
+  ];
+
+  function renderProjects(){
+    const grid = document.getElementById('projectGrid');
+    const q = (document.getElementById('projectSearch').value||'').toLowerCase();
+    const f = document.getElementById('filter').value;
+    grid.innerHTML = '';
+    projects
+      .filter(p => (f==='all' || p.theme===f))
+      .filter(p => p.title.toLowerCase().includes(q) || p.details.toLowerCase().includes(q))
+      .forEach((p,idx)=>{
+        const card = document.createElement('article'); card.className='card project';
+        card.innerHTML = `
+          <div class="thumb" role="img" aria-label="${p.title}"></div>
+          <div>
+            <div class="tags"><span class="tag">${p.theme}</span></div>
+            <h4 style="margin:6px 0">${p.title}</h4>
+            <p class="muted" style="min-height:40px">${p.impact}</p>
+            <div class="actions">
+              <button class="btn" data-idx="${idx}">View</button>
+              <button class="btn ghost" onclick="navigator.clipboard.writeText('${p.title} — ${p.impact}')">Copy</button>
+            </div>
+          </div>`;
+        card.querySelector('button.btn').addEventListener('click',()=>openModal(idx));
+        grid.appendChild(card);
+      })
+  }
+  renderProjects();
+  document.getElementById('projectSearch').addEventListener('input', renderProjects);
+  document.getElementById('filter').addEventListener('change', renderProjects);
+
+  function openModal(idx){
+    const p = projects[idx];
+    document.getElementById('modalTitle').textContent = p.title;
+    document.getElementById('modalBody').innerHTML = `
+      <p><b>Theme:</b> ${p.theme}</p>
+      <p>${p.details}</p>
+      <ul>${p.tasks.map(t=><li>${t}</li>).join('')}</ul>`;
+    document.getElementById('projectModal').showModal();
+  }
+
+  // Pledges (localStorage)
+  (function(){
+    const key='pledges:v1';
+    const boxes = document.querySelectorAll('.pledge');
+    const saved = JSON.parse(localStorage.getItem(key)||'[]');
+    boxes.forEach(b=>{ if(saved.includes(b.value)) b.checked=true; });
+    const update=()=>{
+      const vals=[...boxes].filter(b=>b.checked).map(b=>b.value);
+      localStorage.setItem(key, JSON.stringify(vals));
+      document.getElementById('pledgeCount').textContent = ${vals.length} pledge${vals.length!==1?'s':''};
+    };
+    boxes.forEach(b=>b.addEventListener('change',update));
+    update();
+  })();
+
+  // Calculator
+  function calc(){
+    const e=+document.getElementById('electricity').value||0; // kWh
+    const g=+document.getElementById('lpg').value||0; // kg
+    const km=+document.getElementById('vehicleKm').value||0; // km
+    const w=+document.getElementById('wasteKg').value||0; // kg
+    const co2 = e*0.82 + g*3.0 + km*0.192 + w*2.0; // kg CO2e
+    document.getElementById('calcResult').textContent = CO₂e: ${co2.toFixed(1)} kg/month;
+  }
+  document.getElementById('calcBtn').addEventListener('click', calc);
+  document.getElementById('resetCalc').addEventListener('click', ()=>{
+    ['electricity','lpg','vehicleKm','wasteKg'].forEach(id=>document.getElementById(id).value='');
+    document.getElementById('calcResult').textContent='CO₂e: –';
+  });
+
+  // Contact (mock)
+  document.getElementById('sendBtn').addEventListener('click',()=>{
+    const name=document.getElementById('name').value.trim();
+    const email=document.getElementById('email').value.trim();
+    const msg=document.getElementById('message').value.trim();
+    if(!name||!email||!msg){
+      document.getElementById('sendStatus').textContent='Please complete all fields';
+      document.getElementById('sendStatus').style.background='var(--warn)';
+      return;
+    }
+    document.getElementById('sendStatus').textContent='Sent (demo)';
+    document.getElementById('sendStatus').style.background='var(--ok)';
+  });
+
+  // Share + Print
+  document.getElementById('printBtn').addEventListener('click',()=>window.print());
+  document.getElementById('shareBtn').addEventListener('click', async ()=>{
+    try{
+      if(navigator.share){ await navigator.share({title:document.title, text:'Check my Green Initiatives portfolio', url:location.href}); }
+      else{ await navigator.clipboard.writeText(location.href); alert('Link copied!'); }
+    }catch(e){ console.log(e); }
+  });
+
+  // Export data (download JSON)
+  document.getElementById('exportJSON').addEventListener('click',()=>{
+    const data={
+      name: document.querySelector('[contenteditable]')?.textContent?.trim()||'Your Name',
+      kpis: [...document.querySelectorAll('.kpi .num')].map(n=>n.textContent),
+      projects, pledges: JSON.parse(localStorage.getItem('pledges:v1')||'[]')
+    };
+    const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+    const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='green-portfolio-data.json'; a.click();
+  });
+
+  // Timeline add helper (example usage in console)
+  window.addMilestone = function(year, text){
+    const li=document.createElement('li'); li.className='tl-item';
+    li.innerHTML=<span class="dot" aria-hidden="true"></span><b>${year}</b> — ${text};
+    document.getElementById('timeline').appendChild(li);
+  }
+
+  // Year
+  document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
